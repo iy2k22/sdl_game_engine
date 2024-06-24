@@ -1,0 +1,5 @@
+obj/*.o
+obj/managers/*.o
+obj/states/*.o
+obj/textures/*.o
+out
