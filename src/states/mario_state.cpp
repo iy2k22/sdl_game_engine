@@ -13,7 +13,7 @@ MarioState::~MarioState()
 bool MarioState::init(int* w, int* h, SDL_Renderer* r)
 {
     BaseState::init(w, h, r);
-    return mario.loadFromFile("./assets/luigi.png", renderer);
+    return mario.loadFromFile("./assets/mario.png", renderer);
 }
 
 void MarioState::close()
