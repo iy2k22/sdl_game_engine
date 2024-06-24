@@ -1,5 +1,2 @@
-obj/*.o
-obj/managers/*.o
-obj/states/*.o
-obj/textures/*.o
+obj
 out
