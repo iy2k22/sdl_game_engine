@@ -12,10 +12,10 @@ std::string SelectState::worlds[] = {
 };
 
 std::map<std::string, std::vector<std::string>> SelectState::world_map = {
-{"Mushroom Kingdom", {"It's a me", "Starman Slaughter", "All Stars"}},
+{"Mushroom Kingdom", {"Its a me", "Starman Slaughter", "All Stars"}},
 {"Irregularity Isle", {"So Cool", "Nourishing Blood", "MARIO SING AND GAME RYTHM 9"}},
 {"Woodland of Lies", {"Alone", "Oh God No", "I Hate You", "Thalassophobia", "Apparition", "Last Course", "Dark Forest"}},
-{"Content Cosmos", {"Bad Day", "Day Out", "Dictator", "Race-traitors", "No Hope"}},
+{"Content Cosmos", {"Bad Day", "Day Out", "Dictator", "Race traitors", "No Hope"}},
 {"Hellish Heights", {"Unbeatable", "Golden Land", "No Party", "Paranoia", "Overdue", "Powerdown", "Demise"}},
 {"Classified Castle", {"Promotion", "Abandoned", "The End"}}
 };
