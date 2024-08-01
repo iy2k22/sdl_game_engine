@@ -17,7 +17,7 @@ bool init()
     }
     if (!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "best"))
         std::cerr << "Warning: linear texture filtering not enabled!\n";
-    int imgFlags = IMG_INIT_PNG;
+    int imgFlags = IMG_INIT_PNG | IMG_INIT_WEBP;
     if (!(IMG_Init(imgFlags) & imgFlags))
     {
         std::cerr << "Could not init SDL_image!\n";
