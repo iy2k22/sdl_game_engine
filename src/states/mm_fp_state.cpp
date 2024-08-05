@@ -76,10 +76,11 @@ bool MMFPState::init(int* w, int* h, SDL_Renderer* r)
 
     for (int i = 0; i < NUM_SONGS; ++i)
     {
-        if (!songs[i].artwork.loadFromFile("./assets/mm_fp/" + songs[i].path + ".webp", renderer))
+        if (!songs[i].box.init("./assets/mm_fp/" + songs[i].path + ".webp", renderer))
             return false;
-        songs[i].artwork.setRGBA(0xff, 0, 0);
-        songs[i].artwork.scale(0.7);
+        static int start_point = (*width - songs[0].box.getWidth()) / 2;
+        songs[i].box.setX(start_point + (450 * i));
+        songs[i].box.setY((*height - songs[i].box.getHeight()) / 2);
     }
 
     if (!song_name.openFont("./assets/Mario64.ttf") || !song_name.loadFromText(songs[0].display, red, renderer))
@@ -89,16 +90,15 @@ bool MMFPState::init(int* w, int* h, SDL_Renderer* r)
 
 void MMFPState::close()
 {
-    for (int i = 0; i <NUM_SONGS; ++i)
-        songs[i].artwork.free();
+    for (int i = 0; i < NUM_SONGS; ++i)
+        songs[i].box.close();
     curr_selected = 0;
 }
 
 void MMFPState::render()
 {
-    int start_point = (*width - songs[0].artwork.getWidth()) / 2;
     for (int i = 0; i < NUM_SONGS; ++i)
-        songs[i].artwork.render(renderer, start_point + (450 * i), (*height - songs[i].artwork.getHeight()) / 2);
+        songs[i].box.render(renderer);
     song_name.render(renderer, (*width - song_name.getWidth()) / 2, 700);
 }
 
@@ -112,12 +112,26 @@ void MMFPState::handleEvent(SDL_Event& e)
                 if (e.key.keysym.sym == SDLK_RIGHT)
                 {
                     if (++curr_selected >= NUM_SONGS)
+                    {
                         curr_selected = 0;
+                        for (int i = 0; i < NUM_SONGS; ++i)
+                            songs[i].box.setX(songs[i].box.getX() + (450 * (NUM_SONGS - 1)));
+                    }
+                    else
+                        for (int i = 0; i < NUM_SONGS; ++i)
+                            songs[i].box.setX(songs[i].box.getX() - 450);
                 }
                 else
                 {
                     if (--curr_selected <= -1)
+                    {
                         curr_selected = NUM_SONGS - 1;
+                        for (int i = 0; i < NUM_SONGS; ++i)
+                            songs[i].box.setX(songs[i].box.getX() - (450 * (NUM_SONGS - 1)));
+                    }
+                    else
+                        for (int i = 0; i < NUM_SONGS; ++i)
+                            songs[i].box.setX(songs[i].box.getX() + 450);
                 }
                 song_name.loadFromText(songs[curr_selected].display, red, renderer);
                 break;

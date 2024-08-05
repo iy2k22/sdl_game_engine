@@ -4,14 +4,14 @@
 #include <string>
 
 #include "base_state.hpp"
-#include "../textures/image_texture.hpp"
+#include "mm_fp_box.hpp"
 #include "../textures/text_texture.hpp"
 
 const int NUM_SONGS = 28;
 
 typedef struct song_entry {
     std::string path, display;
-    ImageTexture artwork;
+    MMFPBox box;
 } SongEntry;
 
 class MMFPState : public BaseState
