@@ -5,7 +5,9 @@
 
 MMFPState::MMFPState()
 {
-    curr_selected = 0;
+    curr_selected = curr_position = 0;
+    curr_state = STATIC;
+    start_point = 0;
 }
 
 MMFPState::~MMFPState()
@@ -78,7 +80,7 @@ bool MMFPState::init(int* w, int* h, SDL_Renderer* r)
     {
         if (!songs[i].box.init("./assets/mm_fp/" + songs[i].path + ".webp", renderer))
             return false;
-        static int start_point = (*width - songs[0].box.getWidth()) / 2;
+        start_point = (*width - songs[0].box.getWidth()) / 2;
         songs[i].box.setX(start_point + (450 * i));
         songs[i].box.setY((*height - songs[i].box.getHeight()) / 2);
     }
@@ -92,19 +94,39 @@ void MMFPState::close()
 {
     for (int i = 0; i < NUM_SONGS; ++i)
         songs[i].box.close();
-    curr_selected = 0;
+    curr_selected = curr_position = start_point = 0;
+    curr_state = STATIC;
 }
 
 void MMFPState::render()
 {
     for (int i = 0; i < NUM_SONGS; ++i)
+    {
+        switch (curr_state)
+        {
+            case TRANS_LEFT:
+                songs[i].box.setX(songs[i].box.getX() + 45);
+                break;
+            case TRANS_RIGHT:
+                songs[i].box.setX(songs[i].box.getX() - 45);
+                break;
+            case TO_START:
+                songs[i].box.setX(songs[i].box.getX() + (45 * (NUM_SONGS - 1)));
+                break;
+            case TO_END:
+                songs[i].box.setX(songs[i].box.getX() - (45 * (NUM_SONGS - 1)));
+                break;
+        }
+        if (songs[curr_selected].box.getX() == start_point && curr_state != STATIC)
+            curr_state = STATIC;
         songs[i].box.render(renderer);
+    }
     song_name.render(renderer, (*width - song_name.getWidth()) / 2, 700);
 }
 
 void MMFPState::handleEvent(SDL_Event& e)
 {
-    if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
+    if (e.type == SDL_KEYDOWN && e.key.repeat == 0 && curr_state == STATIC)
         switch (e.key.keysym.sym)
         {
             case SDLK_RIGHT:
@@ -114,24 +136,20 @@ void MMFPState::handleEvent(SDL_Event& e)
                     if (++curr_selected >= NUM_SONGS)
                     {
                         curr_selected = 0;
-                        for (int i = 0; i < NUM_SONGS; ++i)
-                            songs[i].box.setX(songs[i].box.getX() + (450 * (NUM_SONGS - 1)));
+                        curr_state = TO_START;
                     }
                     else
-                        for (int i = 0; i < NUM_SONGS; ++i)
-                            songs[i].box.setX(songs[i].box.getX() - 450);
+                        curr_state = TRANS_RIGHT;
                 }
                 else
                 {
                     if (--curr_selected <= -1)
                     {
                         curr_selected = NUM_SONGS - 1;
-                        for (int i = 0; i < NUM_SONGS; ++i)
-                            songs[i].box.setX(songs[i].box.getX() - (450 * (NUM_SONGS - 1)));
+                        curr_state = TO_END;
                     }
                     else
-                        for (int i = 0; i < NUM_SONGS; ++i)
-                            songs[i].box.setX(songs[i].box.getX() + 450);
+                        curr_state = TRANS_LEFT;
                 }
                 song_name.loadFromText(songs[curr_selected].display, red, renderer);
                 break;

@@ -14,6 +14,15 @@ typedef struct song_entry {
     MMFPBox box;
 } SongEntry;
 
+enum CurrState
+{
+    STATIC,
+    TRANS_LEFT,
+    TRANS_RIGHT,
+    TO_START,
+    TO_END
+};
+
 class MMFPState : public BaseState
 {
 public:
@@ -25,8 +34,11 @@ public:
     void handleEvent(SDL_Event&);
 private:
     int curr_selected;
+    int curr_position;
     SongEntry songs[NUM_SONGS];
     TextTexture song_name;
+    CurrState curr_state;
+    int start_point;
 };
 
 #endif
