@@ -14,6 +14,9 @@ public:
     int getWidth();
     int getHeight();
     void setRGBA(Uint8, Uint8, Uint8);
+    void setWidth(int);
+    void setHeight(int);
+    void scale(float);
 protected:
     SDL_Surface* surface;
     SDL_Texture* texture;

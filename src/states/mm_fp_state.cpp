@@ -79,6 +79,7 @@ bool MMFPState::init(int* w, int* h, SDL_Renderer* r)
         if (!songs[i].artwork.loadFromFile("./assets/mm_fp/" + songs[i].path + ".webp", renderer))
             return false;
         songs[i].artwork.setRGBA(0xff, 0, 0);
+        songs[i].artwork.scale(0.7);
     }
 
     if (!song_name.openFont("./assets/Mario64.ttf") || !song_name.loadFromText(songs[0].display, red, renderer))

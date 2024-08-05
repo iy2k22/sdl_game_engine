@@ -65,3 +65,19 @@ void BaseTexture::setRGBA(Uint8 r, Uint8 g, Uint8 b)
 {
     SDL_SetTextureColorMod(texture, r, g, b);
 }
+
+void BaseTexture::setWidth(int w)
+{
+    width = w;
+}
+
+void BaseTexture::setHeight(int h)
+{
+    height = h;
+}
+
+void BaseTexture::scale(float factor)
+{
+    height *= factor;
+    width *= factor;
+}
