@@ -96,8 +96,9 @@ void MMFPState::close()
 
 void MMFPState::render()
 {
-    int art_y = (*height - songs[curr_selected].artwork.getHeight()) / 2;
-    songs[curr_selected].artwork.render(renderer, (*width - songs[curr_selected].artwork.getWidth()) / 2, art_y);
+    int start_point = (*width - songs[0].artwork.getWidth()) / 2;
+    for (int i = 0; i < NUM_SONGS; ++i)
+        songs[i].artwork.render(renderer, start_point + (450 * i), (*height - songs[i].artwork.getHeight()) / 2);
     song_name.render(renderer, (*width - song_name.getWidth()) / 2, 700);
 }
 
