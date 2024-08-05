@@ -9,7 +9,7 @@
 #include "base_state.hpp"
 #include "../textures/text_texture.hpp"
 
-const int NUM_STATES = 4;
+const int NUM_STATES = 5;
 
 class TitleState : public BaseState
 {

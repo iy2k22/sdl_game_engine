@@ -10,6 +10,7 @@
 #include "states/text_state.hpp"
 #include "states/animated_state.hpp"
 #include "states/select_state.hpp"
+#include "states/mm_fp_state.hpp"
 
 enum CurrState
 {
@@ -17,7 +18,8 @@ enum CurrState
     MARIO,
     TEXT,
     ANIMATED,
-    SELECT
+    SELECT,
+    MM_FP
 };
 
 class Window
@@ -39,6 +41,7 @@ private:
     TextState* text_state;
     AnimatedState* animated_state;
     SelectState* select_state;
+    MMFPState* mm_fp_state;
     CurrState curr_state;
 };
 

@@ -60,3 +60,8 @@ int BaseTexture::getWidth()
 {
     return width;
 }
+
+void BaseTexture::setRGBA(Uint8 r, Uint8 g, Uint8 b)
+{
+    SDL_SetTextureColorMod(texture, r, g, b);
+}

@@ -9,7 +9,8 @@ std::string TitleState::state_names[] = {
     "mario",
     "text",
     "animated",
-    "select"
+    "select",
+    "mm fp"
 };
 
 TitleState::TitleState()
@@ -86,6 +87,7 @@ int TitleState::handleEvent(SDL_Event& e)
             case SDLK_2:
             case SDLK_3:
             case SDLK_4:
+            case SDLK_5:
                 return e.key.keysym.sym - SDLK_0;
         }
     return 0;

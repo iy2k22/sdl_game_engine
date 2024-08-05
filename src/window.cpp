@@ -12,6 +12,7 @@ Window::Window()
     text_state = nullptr;
     animated_state = nullptr;
     select_state = nullptr;
+    mm_fp_state = nullptr;
     curr_state = TITLE;
     width = height = 0;
 }
@@ -85,7 +86,10 @@ void Window::close()
 
 void Window::render()
 {
-    SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0xff, 0xff);
+    if (curr_state == MM_FP)
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
+    else
+        SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0xff, 0xff);
     SDL_RenderClear(renderer);
     switch (curr_state)
     {
@@ -104,6 +108,9 @@ void Window::render()
         case SELECT:
             select_state->render();
             break;
+        case MM_FP:
+            mm_fp_state->render();
+            break;
     }
     SDL_RenderPresent(renderer);
 }
@@ -119,6 +126,7 @@ void Window::handleEvent(SDL_Event& e)
                 case TEXT:
                 case ANIMATED:
                 case SELECT:
+                case MM_FP:
                     title_state->close();
                     title_state = nullptr;
                     switch (titleReturn)
@@ -143,6 +151,11 @@ void Window::handleEvent(SDL_Event& e)
                             select_state->init(&width, &height, renderer);
                             curr_state = SELECT;
                             break;
+                        case MM_FP:
+                            mm_fp_state = new MMFPState;
+                            mm_fp_state->init(&width, &height, renderer);
+                            curr_state = MM_FP;
+                            break;
                     }
                     break;
             }
@@ -152,4 +165,6 @@ void Window::handleEvent(SDL_Event& e)
         if (!select_state->handleEvent(e))
             close();
     }
+    else if (curr_state == MM_FP)
+        mm_fp_state->handleEvent(e);
 }

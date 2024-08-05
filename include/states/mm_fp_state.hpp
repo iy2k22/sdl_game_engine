@@ -5,6 +5,7 @@
 
 #include "base_state.hpp"
 #include "../textures/image_texture.hpp"
+#include "../textures/text_texture.hpp"
 
 const int NUM_SONGS = 28;
 
@@ -25,6 +26,7 @@ public:
 private:
     int curr_selected;
     SongEntry songs[NUM_SONGS];
+    TextTexture song_name;
 };
 
 #endif

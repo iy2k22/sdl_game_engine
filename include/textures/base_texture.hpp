@@ -13,6 +13,7 @@ public:
     bool createTexture(SDL_Renderer*);
     int getWidth();
     int getHeight();
+    void setRGBA(Uint8, Uint8, Uint8);
 protected:
     SDL_Surface* surface;
     SDL_Texture* texture;
